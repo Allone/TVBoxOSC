@@ -148,7 +148,7 @@ jobs:
           removeArtifacts: true
           artifacts: |
             TVBoxOSC/apk/*.apk
-            TVBoxOSC/source-${{ env.commitS }}.*
+            # TVBoxOSC/source-${{ env.commitS }}.*
       - name: Push to master
         if: ${{ env.commit }}
         run: |
