@@ -32,10 +32,10 @@ jobs:
           - userName: q215613905
             repoName: TVBoxOS
             branchName: main
-  #https://github.com/claniTV/clanTV
-#          - userName: takagen99
-#            repoName: Box
-#            branchName: main
+  #https://github.com/takagen99/Box
+          - userName: takagen99
+            repoName: Box
+            branchName: main
   
     steps:
       - name: Checkout
