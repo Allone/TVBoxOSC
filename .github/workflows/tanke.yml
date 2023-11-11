@@ -1,4 +1,4 @@
-name: TVBox-update
+name: TANK_TVBox-update
 
 on:
   schedule:
