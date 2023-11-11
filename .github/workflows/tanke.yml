@@ -115,6 +115,11 @@ jobs:
         if: ${{ inputs.donotpublish && env.commit }}
         run: |
           echo "commit=" >> $GITHUB_ENV
+      - name: Update release
+        uses: ColinPitrat/update-release@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: TVBoxOSC/apk/*.apk dist/*.apk
       - name: Release and Upload Assets
         uses: ncipollo/release-action@v1
         if: ${{ env.commit }}
@@ -126,15 +131,3 @@ jobs:
           artifacts: |
             TVBoxOSC/apk/*.apk
             # TVBoxOSC/source-${{ env.commitS }}.*
-      - name: Push to master
-        if: ${{ env.commit }}
-        run: |
-          rm -rf TVBoxOSC
-          #sed -i '/url =/d' ./.git/config
-          #git config --local user.name "github-actions[bot]"
-          #git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          #git remote set-url --add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
-          #git pull --rebase
-          #git add --all
-          #git push -u -f origin master
-          #done
