@@ -25,17 +25,17 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - userName: Allone
-            repoName: TVBoxOS
-            branchName: main
-   #https://github.com/q215613905/TVBoxOS
+#          - userName: Allone
+#            repoName: TVBoxOS
+#            branchName: main
+#https://github.com/q215613905/TVBoxOS
           - userName: q215613905
             repoName: TVBoxOS
             branchName: main
-  #https://github.com/takagen99/Box
-          - userName: takagen99
-            repoName: Box
-            branchName: main
+#https://github.com/takagen99/Box
+#          - userName: takagen99
+#            repoName: Box
+#            branchName: main
   
     steps:
       - name: Checkout
