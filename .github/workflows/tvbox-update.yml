@@ -2,7 +2,7 @@ name: TVBox-update
 
 on:
   schedule:
-    - cron: 0 0 * * sun
+    - cron: 59 */8 * * *
   workflow_dispatch:
     inputs:
       rebuild:
@@ -13,10 +13,6 @@ on:
         description: '构建后不提交发布新版'
         required: false
         type: boolean
-      testOption:
-        description: 'arm64支持，不支持ijk解码'
-        required: false
-        type: boolean
 
 jobs:
   build:
@@ -25,36 +21,29 @@ jobs:
       fail-fast: false
       matrix:
         include:
-#          - userName: Allone
-#            repoName: TVBoxOS
-#            branchName: main
-#https://github.com/q215613905/TVBoxOS
           - userName: q215613905
             repoName: TVBoxOS
             branchName: main
-#https://github.com/takagen99/Box
-#          - userName: takagen99
-#            repoName: Box
-#            branchName: main
-  
+          # - userName: takagen99
+          #   repoName: Box
+          #   branchName: main
+            java_ver: 17
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Clone Project
-        run: git clone -b main --depth=1 https://github.com/q215613905/TVBoxOS
       - name: Check New Commit
         run: |
           upStream=https://github.com/${{ matrix.userName }}/${{ matrix.repoName }}
           echo "upStream=$upStream" >> $GITHUB_ENV
           commit=$(curl -sL $upStream/commits/${{ matrix.branchName }} |grep -o "/${{ matrix.userName }}/${{ matrix.repoName }}/commit/[a-z0-9]\+" |head -1 | cut -d\/ -f5)
-          # if ! grep -q "$commit" README.md || [ "${{ inputs.rebuild }}" == "true" ]; then
-          #   echo "commit=$commit" >> $GITHUB_ENV
-          #   echo "commitS=${commit:0:7}" >> $GITHUB_ENV
-          # fi
+          if ! grep -q "$commit" README.md || [ "${{ inputs.rebuild }}" == "true" ]; then
+            echo "commit=$commit" >> $GITHUB_ENV
+            echo "commitS=${commit:0:7}" >> $GITHUB_ENV
+          fi
       - name: Checkout Source Code
-        # if: ${{ env.commit }}
+        if: ${{ env.commit }}
         run: |
           git clone ${{ env.upStream }} TVBoxOSC
           cd TVBoxOSC
