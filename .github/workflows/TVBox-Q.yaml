@@ -152,7 +152,7 @@ jobs:
         with:
           name: ${{ env.tag }}
           tag: ${{ env.tag }}
-          bodyFile: TVBoxOSC/apk/${{ matrix.userName }}-Release.log
+          # bodyFile: TVBoxOSC/apk/${{ matrix.userName }}-Release.log
           allowUpdates: true
           removeArtifacts: true
           artifacts: |
