@@ -1,7 +1,7 @@
 name: TVBox-Q
 on:
-  schedule:
-    - cron: 59 */48 * * *
+  # schedule:
+  #   - cron: 59 */48 * * *
   workflow_dispatch:
     inputs:
       rebuild:
