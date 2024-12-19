@@ -4,7 +4,7 @@ on:
   watch:
     types: [started]
   schedule:
-    - cron: 0,30 * * * *
+    - cron: '0,30 * * * *'
 
 env:
   TZ: Asia/Shanghai
@@ -19,6 +19,18 @@ jobs:
     - name: GetTime
       id: date
       run: echo "::set-output name=date::$(date +'%Y-%m-%d %H:%M:%S CST')"
+
+    - name: Cache m3u files
+      uses: actions/cache@v3
+      with:
+        path: |
+          CCTV.m3u
+          STV.m3u
+          DTV.m3u
+          IHOT.m3u
+        key: ${{ runner.os }}-m3u-${{ hashFiles('**/*.m3u') }}
+        restore-keys: |
+          ${{ runner.os }}-m3u-
 
     - name: Update
       run: |
@@ -76,3 +88,14 @@ jobs:
 
     - name: Push
       run: git push -f origin master
+
+    - name: Upload m3u files
+      uses: actions/upload-artifact@v3
+      with:
+        name: m3u-files
+        path: |
+          CCTV.m3u
+          STV.m3u
+          DTV.m3u
+          IHOT.m3u
+          IPTV.m3u
