@@ -59,11 +59,11 @@ jobs:
           cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-xhdpi/app_icon.png
           cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-xxhdpi/app_icon.png
           cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-xxxhdpi/app_icon.png
-          echo 'crosswalk源，防挂'
-          if grep -q 'crosswalk' build.gradle; then
-            sed -i "/crosswalk/a\        maven { url 'https://o0halflife0o.github.io/crosswalk/releases/crosswalk/android/maven2' }" build.gradle
-          else
-            sed -i "/jitpack.io/a\        maven { url 'https://o0halflife0o.github.io/crosswalk/releases/crosswalk/android/maven2' }" build.gradle
+          # echo 'crosswalk源，防挂'
+          # if grep -q 'crosswalk' build.gradle; then
+          #   sed -i "/crosswalk/a\        maven { url 'https://o0halflife0o.github.io/crosswalk/releases/crosswalk/android/maven2' }" build.gradle
+          # else
+          #   sed -i "/jitpack.io/a\        maven { url 'https://o0halflife0o.github.io/crosswalk/releases/crosswalk/android/maven2' }" build.gradle
       - name: Compress Source Code
         if: env.commit
         working-directory: TVBoxOSC
