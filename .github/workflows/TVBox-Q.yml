@@ -48,6 +48,7 @@ jobs:
         working-directory: TVBoxOSC
         run: |
           echo '修改VersionName'
+          sed -i 's#classpath 'com.android.tools.build:gradle:4.2.2'#classpath 'com.android.tools.build:gradle:7.2.0'#g' build.gradle
           sed -i "/versionName/s#[0-9a-zA-Z_\.\'\"-]\+\$#\'${{ env.tag }}\'#" app/build.gradle
           sed -i "/android:text=/s#=\"#=\"TVBox-Pro-v.${{ env.tag }}\\\\n#" app/src/main/res/layout/dialog_about.xml
           echo '添加内置源'
