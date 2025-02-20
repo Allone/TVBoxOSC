@@ -1,4 +1,4 @@
-name: TVBox-Q
+name: mytv-android
 on:
   workflow_dispatch:
     inputs:
@@ -39,13 +39,13 @@ jobs:
       - name: Checkout Source Code
         if: env.commit
         run: |
-          git clone ${{ env.upStream }} TVBoxOSC
-          cd TVBoxOSC
+          git clone ${{ env.upStream }} mytv-android
+          cd mytv-android
           git checkout ${{ env.commit }}
           echo "tag=$(git log --date=format:'%Y%m%d-%H%M' --pretty=format:%cd ${{ env.commitS }} -1)" >> $GITHUB_ENV
       # - name: Extra Modify
       #   if: env.commit
-      #   working-directory: TVBoxOSC
+      #   working-directory: mytv-android
       #   run: |
       #     echo '修改VersionName'
       #     sed -i 's#classpath 'com.android.tools.build:gradle:4.2.2'#classpath 'com.android.tools.build:gradle:7.2.0'#g' build.gradle
@@ -67,23 +67,23 @@ jobs:
       #     #   sed -i "/jitpack.io/a\        maven { url 'https://o0halflife0o.github.io/crosswalk/releases/crosswalk/android/maven2' }" build.gradle
       - name: Compress Source Code
         if: env.commit
-        working-directory: TVBoxOSC
+        working-directory: mytv-android
         run: |
           tar -cJf sourceCode-${{ env.commitS }}.tar.xz --exclude=.git --exclude=.github *
       - name: Release Apk Sign
         if: env.commit
-        working-directory: TVBoxOSC
+        working-directory: mytv-android
         run: |
           signingConfigs='ICAgIHNpZ25pbmdDb25maWdzIHtcCiAgICAgICAgaWYgKHByb2plY3QuaGFzUHJvcGVydHkoIlJFTEVBU0VfU1RPUkVfRklMRSIpKSB7XAogICAgICAgICAgICBteUNvbmZpZyB7XAogICAgICAgICAgICAgICAgc3RvcmVGaWxlIGZpbGUoUkVMRUFTRV9TVE9SRV9GSUxFKVwKICAgICAgICAgICAgICAgIHN0b3JlUGFzc3dvcmQgUkVMRUFTRV9TVE9SRV9QQVNTV09SRFwKICAgICAgICAgICAgICAgIGtleUFsaWFzIFJFTEVBU0VfS0VZX0FMSUFTXAogICAgICAgICAgICAgICAga2V5UGFzc3dvcmQgUkVMRUFTRV9LRVlfUEFTU1dPUkRcCiAgICAgICAgICAgICAgICB2MVNpZ25pbmdFbmFibGVkIHRydWVcCiAgICAgICAgICAgICAgICB2MlNpZ25pbmdFbmFibGVkIHRydWVcCiAgICAgICAgICAgICAgICBlbmFibGVWM1NpZ25pbmcgPSB0cnVlXAogICAgICAgICAgICAgICAgZW5hYmxlVjRTaWduaW5nID0gdHJ1ZVwKICAgICAgICAgICAgfVwKICAgICAgICB9XAogICAgfVwKXA=='
           signingConfig='ICAgICAgICAgICAgaWYgKHByb2plY3QuaGFzUHJvcGVydHkoIlJFTEVBU0VfU1RPUkVfRklMRSIpKSB7XAogICAgICAgICAgICAgICAgc2lnbmluZ0NvbmZpZyBzaWduaW5nQ29uZmlncy5teUNvbmZpZ1wKICAgICAgICAgICAgfVwK'
           signingConfigs="$(echo "$signingConfigs" |base64 -d )"
           signingConfig="$(echo "$signingConfig" |base64 -d )"
           sed -i -e "/defaultConfig {/i\\$signingConfigs " -e "/debug {/a\\$signingConfig " -e "/release {/a\\$signingConfig " app/build.gradle
-          cp -f ${{ github.workspace }}/.github/workflows/TVBoxOSC.jks app/TVBoxOSC.jks
-          sed -i '$a\RELEASE_STORE_FILE=./TVBoxOSC.jks'     ./gradle.properties
-          sed -i '$a\RELEASE_KEY_ALIAS=TVBoxOSC'            ./gradle.properties
-          sed -i '$a\RELEASE_STORE_PASSWORD=TVBoxOSC'       ./gradle.properties
-          sed -i '$a\RELEASE_KEY_PASSWORD=TVBoxOSC'         ./gradle.properties
+          # cp -f ${{ github.workspace }}/.github/workflows/TVBoxOSC.jks app/TVBoxOSC.jks
+          # sed -i '$a\RELEASE_STORE_FILE=./TVBoxOSC.jks'     ./gradle.properties
+          # sed -i '$a\RELEASE_KEY_ALIAS=TVBoxOSC'            ./gradle.properties
+          # sed -i '$a\RELEASE_STORE_PASSWORD=TVBoxOSC'       ./gradle.properties
+          # sed -i '$a\RELEASE_KEY_PASSWORD=TVBoxOSC'         ./gradle.properties
       - uses: actions/setup-java@v4
         if: matrix.java_ver
         with:
@@ -93,23 +93,23 @@ jobs:
         if: env.commit
       - name: Build With Gradle
         if: env.commit
-        working-directory: TVBoxOSC
+        working-directory: mytv-android
         run: |
           chmod +x gradlew
           ./gradlew compileDebugSources --stacktrace -info  
           ./gradlew assemblerelease --build-cache --scan --parallel --daemon --warning-mode all
       - name: Prepare App
         if: env.commit
-        working-directory: TVBoxOSC
+        working-directory: mytv-android
         run: |
           rm -rf apk/
           mkdir -p apk/
           for file in `find ~ -name "*release*.apk" -print`; do
             base=$(basename "$file")
-            if [[ "$base" == TVBox_* ]]; then
+            if [[ "$base" == mytv-android_* ]]; then
               new_base=$(echo "$base" | sed "s/release/${{ matrix.userName }}_${{ env.tag }}/")
             else
-              new_base="TVBox_${{ matrix.userName }}_${{ env.tag }}.apk"
+              new_base="mytv-android_${{ matrix.userName }}_${{ env.tag }}.apk"
             fi
             mv "$file" "apk/$new_base"
           done
@@ -120,7 +120,7 @@ jobs:
         with:
           name: ${{ matrix.userName }}-${{ matrix.repoName }}
           path: |
-            TVBoxOSC/apk/*
+            mytv-android/apk/*
       - name: Whether Or Not to Publish
         if: env.commit && inputs.donotpublish == 'true'
         run: |
@@ -134,11 +134,11 @@ jobs:
           allowUpdates: true
           removeArtifacts: true
           artifacts: |
-            TVBoxOSC/apk/*.apk
+            mytv-android/apk/*.apk
       - name: Push to master
         if: env.commit
         run: |
-          rm -rf TVBoxOSC
+          rm -rf mytv-android
           git reset --hard
           sed -i '/url =/d' ./.git/config
           git config --local user.name "github-actions[bot]"
