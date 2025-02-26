@@ -80,12 +80,12 @@ jobs:
       #     #   sed -i "/crosswalk/a\        maven { url 'https://o0halflife0o.github.io/crosswalk/releases/crosswalk/android/maven2' }" build.gradle
       #     # else
       #     #   sed -i "/jitpack.io/a\        maven { url 'https://o0halflife0o.github.io/crosswalk/releases/crosswalk/android/maven2' }" build.gradle
-      - name: Compress Source Code
-        if: ${{ env.commit }}
-        working-directory: TVBoxOSC
-        run: |
-          #zip -q -x ".git/*" -x  ".github/*" -r sourceCode-${{ env.commitS }}.zip .
-          tar -cJf sourceCode-${{ env.commitS }}.tar.xz --exclude=.git --exclude=.github *
+      # - name: Compress Source Code
+      #   if: ${{ env.commit }}
+      #   working-directory: TVBoxOSC
+      #   run: |
+      #     #zip -q -x ".git/*" -x  ".github/*" -r sourceCode-${{ env.commitS }}.zip .
+      #     tar -cJf sourceCode-${{ env.commitS }}.tar.xz --exclude=.git --exclude=.github *
       - name: Release Apk Sign
         if: ${{ env.commit }}
         working-directory: TVBoxOSC
