@@ -67,27 +67,8 @@ jobs:
           else
             sed -i "/jitpack.io/a\        maven { url 'https://o0halflife0o.github.io/crosswalk/releases/crosswalk/android/maven2' }" build.gradle
           fi
-      #   if: env.commit
-      #   working-directory: TVBoxOS
-      #   run: |
-      #     echo '修改VersionName'
-      #     sed -i 's#classpath 'com.android.tools.build:gradle:4.2.2'#classpath 'com.android.tools.build:gradle:7.2.0'#g' build.gradle
-      #     sed -i "/versionName/s#[0-9a-zA-Z_\.\'\"-]\+\$#\'${{ env.tag }}\'#" app/build.gradle
-
-
-      #     # echo 'crosswalk源，防挂'
-      #     # if grep -q 'crosswalk' build.gradle; then
-      #     #   sed -i "/crosswalk/a\        maven { url 'https://o0halflife0o.github.io/crosswalk/releases/crosswalk/android/maven2' }" build.gradle
-      #     # else
-      #     #   sed -i "/jitpack.io/a\        maven { url 'https://o0halflife0o.github.io/crosswalk/releases/crosswalk/android/maven2' }" build.gradle
-      # - name: Compress Source Code
-      #   if: ${{ env.commit }}
-      #   working-directory: TVBoxOSC
-      #   run: |
-      #     #zip -q -x ".git/*" -x  ".github/*" -r sourceCode-${{ env.commitS }}.zip .
-      #     tar -cJf sourceCode-${{ env.commitS }}.tar.xz --exclude=.git --exclude=.github *
       - name: Release Apk Sign
-        if: ${{ env.commit }}
+
         working-directory: TVBoxOSC
         run: |
           signingConfigs='ICAgIHNpZ25pbmdDb25maWdzIHtcCiAgICAgICAgaWYgKHByb2plY3QuaGFzUHJvcGVydHkoIlJFTEVBU0VfU1RPUkVfRklMRSIpKSB7XAogICAgICAgICAgICBteUNvbmZpZyB7XAogICAgICAgICAgICAgICAgc3RvcmVGaWxlIGZpbGUoUkVMRUFTRV9TVE9SRV9GSUxFKVwKICAgICAgICAgICAgICAgIHN0b3JlUGFzc3dvcmQgUkVMRUFTRV9TVE9SRV9QQVNTV09SRFwKICAgICAgICAgICAgICAgIGtleUFsaWFzIFJFTEVBU0VfS0VZX0FMSUFTXAogICAgICAgICAgICAgICAga2V5UGFzc3dvcmQgUkVMRUFTRV9LRVlfUEFTU1dPUkRcCiAgICAgICAgICAgICAgICB2MVNpZ25pbmdFbmFibGVkIHRydWVcCiAgICAgICAgICAgICAgICB2MlNpZ25pbmdFbmFibGVkIHRydWVcCiAgICAgICAgICAgICAgICBlbmFibGVWM1NpZ25pbmcgPSB0cnVlXAogICAgICAgICAgICAgICAgZW5hYmxlVjRTaWduaW5nID0gdHJ1ZVwKICAgICAgICAgICAgfVwKICAgICAgICB9XAogICAgfVwKXA=='
@@ -106,15 +87,15 @@ jobs:
           distribution: temurin
           java-version: ${{ matrix.java_ver }}
       - uses: gradle/actions/setup-gradle@v4
-        if: ${{ env.commit }}
+        # if: ${{ env.commit }}
       - name: Build With Gradle
-        if: ${{ env.commit }}
+        # if: ${{ env.commit }}
         working-directory: TVBoxOSC
         run: |
           chmod +x gradlew
           ./gradlew assemblerelease --build-cache --parallel --daemon --warning-mode all
       - name: Prepare App
-        if: env.commit
+        # if: env.commit
         working-directory: TVBoxOS
         run: |
           rm -rf apk/
