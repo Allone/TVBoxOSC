@@ -43,23 +43,38 @@ jobs:
           cd mytv-android
           git checkout ${{ env.commit }}
           echo "tag=$(git log --date=format:'%Y%m%d-%H%M' --pretty=format:%cd ${{ env.commitS }} -1)" >> $GITHUB_ENV
-      # - name: Extra Modify
+      
+      
+      - name: Extra Modify
+        # if: ${{ env.commit }}
+        working-directory: TVBoxOSC
+        run: |
+          echo '修改VersionName'
+             sed -i "/versionName/s#[0-9a-zA-Z_\.\'\"-]\+\$#\'${{ env.tag }}\'#" app/build.gradle
+             sed -i "/android:text=/s#=\"#=\"TVBox-Pro-v.${{ env.tag }}\\\\n#" app/src/main/res/layout/dialog_about.xml
+          echo '添加内置源'
+            sed -i 's#HawkConfig.API_URL, ""#HawkConfig.API_URL, "https://i.ximix.us/tvbox/dxawi/itv.json"#g' app/src/main/java/com/github/tvbox/osc/api/ApiConfig.java
+            echo '添加内置源'
+            sed -i 's#sites.size()/60#sites.size()/20#g' app/src/main/java/com/github/tvbox/osc/ui/activity/HomeActivity.java
+            echo '图标修改'
+            cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-hdpi/app_icon.png
+            cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-xhdpi/app_icon.png
+            cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-xxhdpi/app_icon.png
+            cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-xxxhdpi/app_icon.png
+          echo 'crosswalk源，防挂'
+          if grep -q 'crosswalk' build.gradle; then
+            sed -i "/crosswalk/a\        maven { url 'https://o0halflife0o.github.io/crosswalk/releases/crosswalk/android/maven2' }" build.gradle
+          else
+            sed -i "/jitpack.io/a\        maven { url 'https://o0halflife0o.github.io/crosswalk/releases/crosswalk/android/maven2' }" build.gradle
+          fi
       #   if: env.commit
       #   working-directory: mytv-android
       #   run: |
       #     echo '修改VersionName'
       #     sed -i 's#classpath 'com.android.tools.build:gradle:4.2.2'#classpath 'com.android.tools.build:gradle:7.2.0'#g' build.gradle
       #     sed -i "/versionName/s#[0-9a-zA-Z_\.\'\"-]\+\$#\'${{ env.tag }}\'#" app/build.gradle
-      #     sed -i "/android:text=/s#=\"#=\"TVBox-Pro-v.${{ env.tag }}\\\\n#" app/src/main/res/layout/dialog_about.xml
-      #     echo '添加内置源'
-      #     sed -i 's#HawkConfig.API_URL, ""#HawkConfig.API_URL, "https://i.ximix.us/tvbox/dxawi/itv.json"#g' app/src/main/java/com/github/tvbox/osc/api/ApiConfig.java
-      #     echo '添加内置源'
-      #     sed -i 's#sites.size()/60#sites.size()/20#g' app/src/main/java/com/github/tvbox/osc/ui/activity/HomeActivity.java
-      #     echo '图标修改'
-      #     cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-hdpi/app_icon.png
-      #     cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-xhdpi/app_icon.png
-      #     cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-xxhdpi/app_icon.png
-      #     cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-xxxhdpi/app_icon.png
+
+
       #     # echo 'crosswalk源，防挂'
       #     # if grep -q 'crosswalk' build.gradle; then
       #     #   sed -i "/crosswalk/a\        maven { url 'https://o0halflife0o.github.io/crosswalk/releases/crosswalk/android/maven2' }" build.gradle
