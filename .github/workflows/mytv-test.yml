@@ -37,7 +37,7 @@ jobs:
             echo "commitS=${commit:0:7}" >> $GITHUB_ENV
           fi
       - name: Checkout Source Code
-        if: env.commit
+        # if: env.commit
         run: |
           git clone ${{ env.upStream }} TVBoxOS
           cd TVBoxOS
