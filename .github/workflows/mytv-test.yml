@@ -40,7 +40,7 @@ jobs:
         if: env.commit
         run: |
           git clone ${{ env.upStream }} TVBoxOS
-          cd mytv-android
+          cd TVBoxOS
           git checkout ${{ env.commit }}
           echo "tag=$(git log --date=format:'%Y%m%d-%H%M' --pretty=format:%cd ${{ env.commitS }} -1)" >> $GITHUB_ENV
       
