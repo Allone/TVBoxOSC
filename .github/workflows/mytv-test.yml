@@ -18,8 +18,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - userName: Allone
-            repoName: mytv-android
+          - userName: q215613905
+            repoName: TVBoxOS
             branchName: main
             java_ver: 17
     steps:
@@ -47,7 +47,7 @@ jobs:
       
       - name: Extra Modify
         # if: ${{ env.commit }}
-        working-directory: mytv-android
+        working-directory: TVBoxOS
         run: |
           echo '修改VersionName'
              sed -i "/versionName/s#[0-9a-zA-Z_\.\'\"-]\+\$#\'${{ env.tag }}\'#" app/build.gradle
@@ -68,7 +68,7 @@ jobs:
             sed -i "/jitpack.io/a\        maven { url 'https://o0halflife0o.github.io/crosswalk/releases/crosswalk/android/maven2' }" build.gradle
           fi
       #   if: env.commit
-      #   working-directory: mytv-android
+      #   working-directory: TVBoxOS
       #   run: |
       #     echo '修改VersionName'
       #     sed -i 's#classpath 'com.android.tools.build:gradle:4.2.2'#classpath 'com.android.tools.build:gradle:7.2.0'#g' build.gradle
@@ -82,12 +82,12 @@ jobs:
       #     #   sed -i "/jitpack.io/a\        maven { url 'https://o0halflife0o.github.io/crosswalk/releases/crosswalk/android/maven2' }" build.gradle
       - name: Compress Source Code
         if: env.commit
-        working-directory: mytv-android
+        working-directory: TVBoxOS
         run: |
           tar -cJf sourceCode-${{ env.commitS }}.tar.xz --exclude=.git --exclude=.github *
       - name: Release Apk Sign
         if: env.commit
-        working-directory: mytv-android
+        working-directory: TVBoxOS
         run: |
           signingConfigs='ICAgIHNpZ25pbmdDb25maWdzIHtcCiAgICAgICAgaWYgKHByb2plY3QuaGFzUHJvcGVydHkoIlJFTEVBU0VfU1RPUkVfRklMRSIpKSB7XAogICAgICAgICAgICBteUNvbmZpZyB7XAogICAgICAgICAgICAgICAgc3RvcmVGaWxlIGZpbGUoUkVMRUFTRV9TVE9SRV9GSUxFKVwKICAgICAgICAgICAgICAgIHN0b3JlUGFzc3dvcmQgUkVMRUFTRV9TVE9SRV9QQVNTV09SRFwKICAgICAgICAgICAgICAgIGtleUFsaWFzIFJFTEVBU0VfS0VZX0FMSUFTXAogICAgICAgICAgICAgICAga2V5UGFzc3dvcmQgUkVMRUFTRV9LRVlfUEFTU1dPUkRcCiAgICAgICAgICAgICAgICB2MVNpZ25pbmdFbmFibGVkIHRydWVcCiAgICAgICAgICAgICAgICB2MlNpZ25pbmdFbmFibGVkIHRydWVcCiAgICAgICAgICAgICAgICBlbmFibGVWM1NpZ25pbmcgPSB0cnVlXAogICAgICAgICAgICAgICAgZW5hYmxlVjRTaWduaW5nID0gdHJ1ZVwKICAgICAgICAgICAgfVwKICAgICAgICB9XAogICAgfVwKXA=='
           signingConfig='ICAgICAgICAgICAgaWYgKHByb2plY3QuaGFzUHJvcGVydHkoIlJFTEVBU0VfU1RPUkVfRklMRSIpKSB7XAogICAgICAgICAgICAgICAgc2lnbmluZ0NvbmZpZyBzaWduaW5nQ29uZmlncy5teUNvbmZpZ1wKICAgICAgICAgICAgfVwK'
@@ -108,14 +108,14 @@ jobs:
         if: env.commit
       - name: Build With Gradle
         if: env.commit
-        working-directory: mytv-android
+        working-directory: TVBoxOS
         run: |
           chmod +x gradlew
           ./gradlew compileDebugSources --stacktrace -info  
           ./gradlew assemblerelease --build-cache --scan --parallel --daemon --warning-mode all
       - name: Prepare App
         if: env.commit
-        working-directory: mytv-android
+        working-directory: TVBoxOS
         run: |
           rm -rf apk/
           mkdir -p apk/
@@ -135,7 +135,7 @@ jobs:
         with:
           name: ${{ matrix.userName }}-${{ matrix.repoName }}
           path: |
-            mytv-android/apk/*
+            TVBoxOS/apk/*
       - name: Whether Or Not to Publish
         if: env.commit && inputs.donotpublish == 'true'
         run: |
@@ -149,7 +149,7 @@ jobs:
           allowUpdates: true
           removeArtifacts: true
           artifacts: |
-            mytv-android/apk/*.apk
+            TVBoxOS/apk/*.apk
       - name: Push to master
         if: env.commit
         run: |
