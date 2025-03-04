@@ -23,8 +23,8 @@ jobs:
             branchName: main
             java_ver: 11
           - userName: FongMi
-            repoName: TVBoxOS
-            branchName: TV
+            repoName: TV
+            branchName: main
             java_ver: 11
     steps:
       - name: Checkout
