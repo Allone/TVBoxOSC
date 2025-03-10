@@ -13,7 +13,6 @@ on:
 
 jobs:
   clean:
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Delete older workflow runs and artifacts
