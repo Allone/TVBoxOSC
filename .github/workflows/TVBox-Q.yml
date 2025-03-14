@@ -134,7 +134,7 @@ jobs:
         with:
           name: ${{ matrix.userName }}-${{ matrix.repoName }}
           path: |
-            TVBoxOS/apk/*
+            TVBoxOS/apk/*.apk
       - name: Whether Or Not to Publish
         if: ${{ inputs.donotpublish && env.commit }}
         run: |
@@ -150,7 +150,7 @@ jobs:
           removeArtifacts: true
           artifacts: |
             TVBoxOS/apk/*.apk
-            # TVBoxOS/apk/sourceCode-${{ env.commitS }}.*
+      #     TVBoxOS/apk/sourceCode-${{ env.commitS }}.*
       # - name: Push to master
       #   if: ${{ env.commit }}
       #   run: |
