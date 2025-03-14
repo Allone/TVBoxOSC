@@ -163,7 +163,7 @@ jobs:
           removeArtifacts: true
           artifacts: |
             TVBoxOS/apk/*.apk
-            TVBoxOS/apk/sourceCode-${{ env.commitS }}.*
+            # TVBoxOS/apk/sourceCode-${{ env.commitS }}.*
       - name: Push to master
         if: ${{ env.commit }}
         run: |
