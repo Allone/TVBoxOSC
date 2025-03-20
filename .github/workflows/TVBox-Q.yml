@@ -51,6 +51,7 @@ jobs:
         if: ${{ env.commit }}
         working-directory: TVBoxOS
         run: |
+          npm cache clean --force
           echo '修改VersionName'
               sed -i "/versionName/s#[0-9a-zA-Z_\.\'\"-]\+\$#\'${{ env.tag }}\'#" app/build.gradle
              sed -i "/android:text=/s#=\"#=\"${{ env.tag }}\\\\n\\\\n#" app/src/main/res/layout/dialog_about.xml 
