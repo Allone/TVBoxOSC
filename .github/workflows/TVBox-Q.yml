@@ -51,10 +51,9 @@ jobs:
         if: ${{ env.commit }}
         working-directory: TVBoxOS
         run: |
-          npm cache clean --force
           echo '修改VersionName'
-              sed -i "/versionName/s#[0-9a-zA-Z_\.\'\"-]\+\$#\'${{ env.tag }}\'#" app/build.gradle
-             sed -i "/android:text=/s#=\"#=\"${{ env.tag }}\\\\n\\\\n#" app/src/main/res/layout/dialog_about.xml 
+            sed -i "/versionName/s#[0-9a-zA-Z_\.\'\"-]\+\$#\'${{ env.tag }}\'#" app/build.gradle
+            sed -i "/android:text=/s#=\"#=\"${{ env.tag }}\\\\n\\\\n#" app/src/main/res/layout/dialog_about.xml 
           echo '添加内置配置源及直播源'
             sed -i 's#HawkConfig.API_URL, ""#HawkConfig.API_URL, "https://i.ximix.us/tvbox/dxawi/itv.json"#g' app/src/main/java/com/github/tvbox/osc/api/ApiConfig.java
             sed -i 's#HawkConfig.LIVE_API_URL, ""#HawkConfig.LIVE_API_URL, "https://i.ximix.us/tvbox/itv.txt"#g' app/src/main/java/com/github/tvbox/osc/api/ApiConfig.java
@@ -103,6 +102,7 @@ jobs:
         working-directory: TVBoxOS
         run: |
           chmod +x gradlew
+          ./gradlew cleanBuildCache
           ./gradlew assemblerelease --parallel --daemon --warning-mode all
       - name: Prepare App
         if: ${{ env.commit }}
