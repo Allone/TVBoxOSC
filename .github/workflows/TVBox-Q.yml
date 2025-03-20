@@ -103,7 +103,7 @@ jobs:
         run: |
           chmod +x gradlew
           # ./gradlew cleanBuildCache
-          ./gradlew --no-build-cache assemblerelease --parallel --daemon --warning-mode all
+          ./gradlew assemblerelease --parallel --daemon --warning-mode all
       - name: Prepare App
         if: ${{ env.commit }}
         working-directory: TVBoxOS
