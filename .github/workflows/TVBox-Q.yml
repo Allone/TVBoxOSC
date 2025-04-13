@@ -51,6 +51,9 @@ jobs:
         if: ${{ env.commit }}
         working-directory: TVBoxOS
         run: |
+          echo '替换Windows路径为系统Python路径'
+            sed -i '/buildPython("D:\/Programs\/Python\/Python38\/python.exe")/d' pyramid/build.gradle
+            echo "" > local.properties
           echo '修改VersionName'
             sed -i "/versionName/s#[0-9a-zA-Z_\.\'\"-]\+\$#\'${{ env.tag }}\'#" app/build.gradle
             sed -i "/android:text=/s#=\"#=\"${{ env.tag }}\\\\n\\\\n#" app/src/main/res/layout/dialog_about.xml 
@@ -89,18 +92,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install lxml ujson pyquery requests jsonpath cachetools pycryptodome beautifulsoup4
 
-      - name: Modify pyramid——build.gradle
-        if: ${{ env.commit }}
-        # working-directory: TVBoxOSC
-        run: |
-          # 替换Windows路径为系统Python路径
-          sed -i '/buildPython("D:\/Programs\/Python\/Python38\/python.exe")/d' pyramid/build.gradle
+      # - name: Modify pyramid——build.gradle
+      #   if: ${{ env.commit }}
+      #   # working-directory: TVBoxOSC
+      #   run: |
+      #     # 替换Windows路径为系统Python路径
+      #     sed -i '/buildPython("D:\/Programs\/Python\/Python38\/python.exe")/d' pyramid/build.gradle
 
-      - name: Setup Python local.properties
-        if: ${{ env.commit }}
-        # working-directory: TVBoxOSC
-        run: |
-          echo "" > local.properties 
+      # - name: Setup Python local.properties
+      #   if: ${{ env.commit }}
+      #   # working-directory: TVBoxOSC
+      #   run: |
+      #     echo "" > local.properties 
         
       - name: Release Apk Sign
         if: ${{ env.commit }}
