@@ -100,10 +100,10 @@ jobs:
           echo '添加内置源'
             sed -i 's#sites.size()/60#sites.size()/20#g' app/src/main/java/com/github/tvbox/osc/ui/activity/HomeActivity.java
           echo '图标修改'
-            cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-hdpi/app_icon.png
-            cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-xhdpi/app_icon.png
-            cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-xxhdpi/app_icon.png
-            cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-xxxhdpi/app_icon.png
+            cp -f ${{ github.workspace }}/DIY/app_icon.png ./app/src/main/res/drawable-hdpi/app_icon.png
+            cp -f ${{ github.workspace }}/DIY/app_icon.png ./app/src/main/res/drawable-xhdpi/app_icon.png
+            cp -f ${{ github.workspace }}/DIY/app_icon.png ./app/src/main/res/drawable-xxhdpi/app_icon.png
+            cp -f ${{ github.workspace }}/DIY/app_icon.png ./app/src/main/res/drawable-xxxhdpi/app_icon.png
           echo "fix crosswalk library"
           if grep -q 'crosswalk' build.gradle; then
             sed -i "/crosswalk/a\   maven { url 'https://celetor.github.io/crosswalk/releases/crosswalk/android/maven2' }\n maven { url 'https://maven.aliyun.com/repository/jcenter' }" build.gradle
