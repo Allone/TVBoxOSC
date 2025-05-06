@@ -142,61 +142,36 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleRelease --build-cache --parallel --daemon --warning-mode all
-      - name: Prepare App
+
+      - name: Rename App
         if: ${{ env.commit }}
-        working-directory: TVBoxOS
+        working-directory: TVBoxOSC
         run: |
           rm -rf apk/
           mkdir -p apk/
-          for file in `find ~ -name "*release*.apk" -print`; do
-            # 获取文件的基本名称
-            base=$(basename "$file")
-            # 如果文件是 TVBox_ 开头
-            if [[ "$base" == TVBox_* ]]; then
-              new_base=$(echo "$base" | sed "s/release/${{ matrix.userName }}_${{ env.tag }}/")
+          for file in `find . -name "*.apk" -print`; do
+            filename=$(basename "$file")
+            if [[ $filename =~ "debug" ]] ; then
+              echo "ignore: $file"
+            elif [[ $filename =~ "release" ]] ; then
+              echo "move and rename: $file"
+              match_name=${filename%.*}
+              match_name=${match_name##*release}
+              new_name="TVBox${match_name}_${{ matrix.userName }}_${{ env.tag }}.apk"
+              echo "new_name: $new_name"
+              mv "$file" "apk/$new_name"
             else
-              new_base="TVBox_${{ matrix.userName }}_${{ env.tag }}.apk"
+              echo "only move: $file"
+              mv "$file" apk/
             fi
-            # 移动并重命名文件
-            mv "$file" "apk/$new_base"
           done
-          mv sourceCode-${{ env.commitS }}.* apk/
       - name: Upload App To Artifact
         uses: actions/upload-artifact@v4
         if: ${{ env.commit }}
         with:
           name: ${{ matrix.userName }}-${{ matrix.repoName }}
           path: |
-            TVBoxOS/apk/*.apk
-      # - name: Rename App
-      #   if: ${{ env.commit }}
-      #   working-directory: TVBoxOSC
-      #   run: |
-      #     rm -rf apk/
-      #     mkdir -p apk/
-      #     for file in `find . -name "*.apk" -print`; do
-      #       filename=$(basename "$file")
-      #       if [[ $filename =~ "debug" ]] ; then
-      #         echo "ignore: $file"
-      #       elif [[ $filename =~ "release" ]] ; then
-      #         echo "move and rename: $file"
-      #         match_name=${filename%.*}
-      #         match_name=${match_name##*release}
-      #         new_name="TVBox${match_name}_${{ matrix.userName }}_${{ env.tag }}.apk"
-      #         echo "new_name: $new_name"
-      #         mv "$file" "apk/$new_name"
-      #       else
-      #         echo "only move: $file"
-      #         mv "$file" apk/
-      #       fi
-      #     done
-      # - name: Upload App To Artifact
-      #   uses: actions/upload-artifact@v4
-      #   if: ${{ env.commit }}
-      #   with:
-      #     name: ${{ matrix.userName }}-${{ matrix.repoName }}
-      #     path: |
-      #       TVBoxOS/apk/*.apk
+            ./apk/*.apk
       # - name: Write Update Changelog
       #   if: ${{ env.commit && !inputs.rebuild }}
       #   run: |
