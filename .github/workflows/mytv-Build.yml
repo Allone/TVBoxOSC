@@ -169,7 +169,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ env.commit }}
         with:
-          name: ${{ matrix.userName }}-${{ matrix.repoName }}
+          name: ${{ matrix.userName }}-${{ env.tag }}
           path: |
             ./TVBoxOSC/apk/*.apk
       # - name: Write Update Changelog
@@ -193,7 +193,7 @@ jobs:
         with:
           name: ${{ env.tag }}
           tag_name: ${{ env.tag }}_${{ matrix.userName }}
-          body_path: TVBoxOSC/Changelog.txt
+          # body_path: TVBoxOSC/Changelog.txt
           files: |
             TVBoxOSC/apk/*
             TVBoxOSC/${{ matrix.userName }}_${{ env.commit_id }}_src.zip
