@@ -80,10 +80,10 @@ jobs:
           # cp -f ${{ github.workspace }}/actions/.github/scripts/TVBoxOSC.jks ./app/TVBoxOSC.jks
           cp -f ${{ github.workspace }}/actions/.github/workflows/TVBoxOSC.jks ./app/TVBoxOSC.jks
           echo '图标修改'
-          cp -f ${{ github.workspace }}/DIY/app_icon.png ./app/src/main/res/drawable-hdpi/app_icon.png
-          cp -f ${{ github.workspace }}/DIY/app_icon.png ./app/src/main/res/drawable-xhdpi/app_icon.png
-          cp -f ${{ github.workspace }}/DIY/app_icon.png ./app/src/main/res/drawable-xxhdpi/app_icon.png
-          cp -f ${{ github.workspace }}/DIY/app_icon.png ./app/src/main/res/drawable-xxxhdpi/app_icon.png
+          cp -f ${{ github.workspace }}/actions/.github/workflows/icon.png ./app/src/main/res/drawable-hdpi/app_icon.png
+          cp -f ${{ github.workspace }}/actions/.github/workflows/icon.png ./app/src/main/res/drawable-xhdpi/app_icon.png
+          cp -f ${{ github.workspace }}/actions/.github/workflows/icon.png ./app/src/main/res/drawable-xxhdpi/app_icon.png
+          cp -f ${{ github.workspace }}/actions/.github/workflows/icon.png ./app/src/main/res/drawable-xxxhdpi/app_icon.png
           sed -i '$a\RELEASE_STORE_FILE=./TVBoxOSC.jks'     ./gradle.properties
           sed -i '$a\RELEASE_KEY_ALIAS=TVBoxOSC'            ./gradle.properties
           sed -i '$a\RELEASE_STORE_PASSWORD=TVBoxOSC'       ./gradle.properties
