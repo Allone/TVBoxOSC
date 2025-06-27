@@ -62,6 +62,8 @@ jobs:
             sed -i 's#HawkConfig.LIVE_API_URL, ""#HawkConfig.LIVE_API_URL, "https://i.ximix.us/tvbox/itv.txt"#g' app/src/main/java/com/github/tvbox/osc/api/ApiConfig.java
           echo '添加内置源'
             sed -i 's#sites.size()/60#sites.size()/20#g' app/src/main/java/com/github/tvbox/osc/ui/activity/HomeActivity.java
+            sed -i 's#SimpleDateFormat("hh:mm a")#SimpleDateFormat("HH:mm:ss")#g' app/src/main/java/com/github/tvbox/osc/ui/activity/LivePlayActivity.java
+            # app\src\main\java\com\github\tvbox\osc\ui\activity\LivePlayActivity.java            @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
           echo '图标修改'
             cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-hdpi/app_icon.png
             cp -f ${{ github.workspace }}/DIY/app_icon.png app/src/main/res/drawable-xhdpi/app_icon.png
