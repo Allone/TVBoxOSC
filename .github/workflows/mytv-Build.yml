@@ -102,7 +102,8 @@ jobs:
           echo '添加内置配置源及直播源'
             sed -i 's#HawkConfig.API_URL, ""#HawkConfig.API_URL, "https://i.ximix.us/tvbox/dxawi/itv.json"#g' app/src/main/java/com/github/tvbox/osc/api/ApiConfig.java
             sed -i 's#HawkConfig.LIVE_API_URL, ""#HawkConfig.LIVE_API_URL, "https://i.ximix.us/tvbox/itv.txt"#g' app/src/main/java/com/github/tvbox/osc/api/ApiConfig.java
-          echo '添加内置源'
+          echo '首页选项卡及时间格式修正'
+            sed -i 's#sites.size()/60#sites.size()/20#g' app/src/main/java/com/github/tvbox/osc/ui/activity/HomeActivity.java
             sed -i 's#sites.size()/60#sites.size()/20#g' app/src/main/java/com/github/tvbox/osc/ui/activity/HomeActivity.java
           echo "fix crosswalk library"
           if grep -q 'crosswalk' build.gradle; then
