@@ -36,7 +36,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           path: actions
@@ -120,20 +120,20 @@ jobs:
           sed -i 's/buildPython/\/\/buildPython/g'  ./pyramid/build.gradle
       - name: Setup JDK
         if: ${{ env.commit && matrix.javaVersion }}
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: ${{ matrix.javaVersion }}
 
       - name: Setup Python
         if: ${{ env.commit }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.8'
 
       - name: Setup Gradle
         if: ${{ env.commit }}
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
         with:
           cache-disabled: true
 
