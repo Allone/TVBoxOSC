@@ -104,7 +104,7 @@ jobs:
             sed -i 's#HawkConfig.LIVE_API_URL, ""#HawkConfig.LIVE_API_URL, "https://i.ximix.us/tvbox/itv.txt"#g' app/src/main/java/com/github/tvbox/osc/api/ApiConfig.java
           echo '首页选项卡及时间格式修正'
             sed -i 's#sites.size()/60#sites.size()/20#g' app/src/main/java/com/github/tvbox/osc/ui/activity/HomeActivity.java
-            sed -i 's#SimpleDateFormat("hh:mm a")#SimpleDateFormat("HH:mm a")#g' app/src/main/java/com/github/tvbox/osc/player/controller/VodController.java
+            sed -i 's#SimpleDateFormat("hh:mm a")#SimpleDateFormat("HH:mm")#g' app/src/main/java/com/github/tvbox/osc/player/controller/VodController.java
 
           echo "fix crosswalk library"
           if grep -q 'crosswalk' build.gradle; then
