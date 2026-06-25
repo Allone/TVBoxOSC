@@ -190,7 +190,7 @@ jobs:
       #     echo -e "Credit: [${{ matrix.userName }}](${{ matrix.repoUrl }})\n\`\`\`\n${COMMIT_MESSAGE}\n\`\`\`" > Changelog.txt
       #     echo "$COMMIT_MESSAGE" > desc.txt
       - name: Release App
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         if: ${{ env.commit && !inputs.rebuild }}
         with:
           name: ${{ env.tag }}
