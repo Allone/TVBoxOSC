@@ -126,11 +126,11 @@ jobs:
           distribution: temurin
           java-version: ${{ matrix.javaVersion }}
 
-      - name: Setup Python
-        if: ${{ env.commit }}
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.8'
+#      - name: Setup Python
+#        if: ${{ env.commit }}
+#        uses: actions/setup-python@v6
+#        with:
+#         python-version: '3.8'
 
       - name: Setup Gradle
         if: ${{ env.commit }}
