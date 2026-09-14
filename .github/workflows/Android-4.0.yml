@@ -143,7 +143,7 @@ jobs:
         working-directory: TVBoxOSC
         run: |
           chmod +x gradlew
-          ./gradlew assembleRelease --build-cache --parallel --daemon --warning-mode all
+          ./gradlew assembleRelease --continue --parallel --daemon --warning-mode all
 
       - name: Rename App
         if: ${{ env.commit }}
