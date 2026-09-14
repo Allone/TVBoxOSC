@@ -20,13 +20,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - userName: q215613905
+          - userName: rbqvq
             repoUrl: https://github.com/rbqvq/TVBoxOS
             branchName: main
           # - userName: takagen99
           #   repoUrl: https://github.com/takagen99/Box
           #   branchName: main
-            javaVersion: 14
+            javaVersion: 15
     # env:
     #   # 登录蓝奏云后在控制台运行document.cookie
     #   ylogin: ${{ secrets.YLOGIN }}
