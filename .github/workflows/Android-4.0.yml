@@ -26,7 +26,7 @@ jobs:
           # - userName: takagen99
           #   repoUrl: https://github.com/takagen99/Box
           #   branchName: main
-            javaVersion: 17
+            javaVersion: 14
     # env:
     #   # 登录蓝奏云后在控制台运行document.cookie
     #   ylogin: ${{ secrets.YLOGIN }}
