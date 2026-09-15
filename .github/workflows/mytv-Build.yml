@@ -98,10 +98,10 @@ jobs:
           sed -i "/   versionCode/c\\versionCode ${version_code}" ./app/build.gradle
           sed -i "/   versionName/c\\versionName '${{ env.tag }}'" ./app/build.gradle
           sed -i "/   applicationId/c\\applicationId '${{ matrix.userName }}.tvbox.osc'" ./app/build.gradle
-          sed -i "/android:text=/c\\        android:text=\"v${{ env.tag }}\\\\n本软件只提供聚合展示功能，所有资源来自网上, 软件不参与任何制作, 上传, 储存, 下载等内容。 软件仅供学习参考, 请于安装后24小时内删除。\\\\n\\\\n打包分发请保留出处\\\\n${{ matrix.repoUrl }}\"" ./app/src/main/res/layout/dialog_about.xml
+          sed -i "/android:text=/c\\        android:text=\"喜糖v${{ env.tag }}\\\\n本软件只提供聚合展示功能，所有资源来自网上, 软件不参与任何制作, 上传, 储存, 下载等内容。 软件仅供学习参考, 请于安装后24小时内删除。\\\\n\\\\n打包分发请保留出处\\\\n${{ matrix.repoUrl }}\"" ./app/src/main/res/layout/dialog_about.xml
           echo '添加内置配置源及直播源'
-            sed -i 's#HawkConfig.API_URL, ""#HawkConfig.API_URL, "https://i.ximix.us/tvbox/dxawi/itv.json"#g' app/src/main/java/com/github/tvbox/osc/api/ApiConfig.java
-            sed -i 's#HawkConfig.LIVE_API_URL, ""#HawkConfig.LIVE_API_URL, "https://i.ximix.us/tvbox/itv.txt"#g' app/src/main/java/com/github/tvbox/osc/api/ApiConfig.java
+            sed -i 's#HawkConfig.API_URL, ""#HawkConfig.API_URL, "https://i.ximix.us/tvbox/set/my.json"#g' app/src/main/java/com/github/tvbox/osc/api/ApiConfig.java
+            sed -i 's#HawkConfig.LIVE_API_URL, ""#HawkConfig.LIVE_API_URL, "https://i.ximix.us/tvbox/web/itv.m3u"#g' app/src/main/java/com/github/tvbox/osc/api/ApiConfig.java
           echo '首页选项卡及时间格式修正'
             sed -i 's#sites.size()/60#sites.size()/20#g' app/src/main/java/com/github/tvbox/osc/ui/activity/HomeActivity.java
             sed -i 's#SimpleDateFormat("hh:mm a")#SimpleDateFormat("HH:mm")#g' app/src/main/java/com/github/tvbox/osc/player/controller/VodController.java
